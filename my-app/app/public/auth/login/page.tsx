@@ -1,0 +1,132 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import Link from "next/link";
+
+import { useState } from "react";
+export default function Login(){
+    
+    const [errors, setError] = useState({
+        email: "",
+        password: ""
+    })
+    const [loginError, setLoginErrror] = useState<string>();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const newInfor = {
+            email: "",
+            password: ""
+        };
+
+
+
+        if(!email) newInfor.email = "Vui lòng nhập email" ;
+        if(!password) newInfor.password = "Vui lòng nhập mật khẩu"
+        setError(newInfor);
+
+        if (newInfor.email || newInfor.password) {
+            setLoginErrror("")
+            return;
+        }
+
+        if (email !== "test@gmail.com" || password !== "123456") {
+            setLoginErrror("Email hoặc mật khẩu không chính xác!");
+        } else setLoginErrror("")
+    }
+
+    return(
+       <main className="relative min-h-screen overflow-hidden bg-white">
+
+            <div className="absolute -left-[180px] -top-[220px] h-[650px] w-[650px] rounded-full bg-blue-500"/>
+
+            <div className="absolute -bottom-[180px] -left-[150px] h-[410px] w-[410px] rounded-full bg-blue-500"/>
+
+            <div className="absolute -bottom-[300px] -right-[180px] h-[710px] w-[710px] rounded-full bg-blue-500"/>
+
+            {/* From login */}
+            <div className="relative z-10 flex min-h-screen items-center justify-center">
+                <div className="w-full max-w-md rounded-2xl bg-white p-10 shadow-xl border-2 border-blue-200">
+
+                    {/* Phần 1: tiêu đề */}
+                    <div className="mb-8 text-center">
+                        <h1 className="text-3xl font-bold text-blue-500">ĐĂNG NHẬP</h1>
+                        <p className="mt-2 text-sm text-gray-400">Xóm cũ - Đăng nhập để trở về</p>
+                    </div>
+
+                    {/* Phần 2: From login */}
+                    <form onSubmit={handleSubmit} className="space-y-5">
+
+                        {/* email */}
+                        <div className="space-y-2">
+                            <Label className="font-bold text-gray-600">Email</Label>
+                            <Input 
+                                id="email"
+                                type="email"
+                                placeholder="Nhập email của bạn"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className={
+                                    errors.email
+                                        ? "border-red-500 focus-visible:border-red-500 focus-visible:ring-red-100"
+                                        : "border-gray-300 focus-visible:border-blue-500 focus-visible:ring-blue-100"
+                                }
+                            />
+                            {errors.email && (
+                                <p className="text-sm text-red-500">{errors.email}</p>
+                            )}
+                        </div>
+
+                        
+                        <div className="space-y-2">
+                            <Label className="font-bold text-gray-600">Mật khẩu</Label>
+                            <Input 
+                                id="password"
+                                type="password"
+                                placeholder="Nhập mật khẩu của bạn"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                 className={
+                                    errors.password
+                                        ? "border-red-500 focus-visible:border-red-500 focus-visible:ring-red-100"
+                                        : "border-gray-300 focus-visible:border-blue-500 focus-visible:ring-blue-100"
+                                }
+                            />
+                            {errors.password && (
+                                <p className="text-sm text-red-500">{errors.password}</p>
+                            )}
+                        </div>
+                        
+
+                        <div className="text-right">
+                            <Link
+                                href={`/public/auth/forgot-password?email=${encodeURIComponent(email)}`}
+                                className="text-sm font-medium text-blue-500 hover:text-blue-600"
+                            >
+                                Quên mật khẩu?
+                            </Link>
+                        </div>
+
+
+                        <div>
+                            <Button type="submit" className="w-full bg-blue-500 hover:bg-blue-600">
+                                Đăng nhập
+                            </Button>
+                        </div>
+                        
+                    </form>
+
+                    {loginError && (
+                        <p className="mt-8 text-sm text-red-500 text-center">{loginError}</p>
+                    )}
+                </div>
+                
+            </div>
+       </main>
+    )
+}
