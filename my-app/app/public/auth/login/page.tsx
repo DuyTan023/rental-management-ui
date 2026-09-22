@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
-
+import {Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 export default function Login(){
     
@@ -15,6 +15,8 @@ export default function Login(){
     const [loginError, setLoginErrror] = useState<string>();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const [showPassword, setShowPassword] = useState<boolean>(false);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -83,23 +85,38 @@ export default function Login(){
                         </div>
 
                         
+                        {/* Input password */}
                         <div className="space-y-2">
-                            <Label className="font-bold text-gray-600">Mật khẩu</Label>
-                            <Input 
-                                id="password"
-                                type="password"
-                                placeholder="Nhập mật khẩu của bạn"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                 className={
-                                    errors.password
-                                        ? "border-red-500 focus-visible:border-red-500 focus-visible:ring-red-100"
-                                        : "border-gray-300 focus-visible:border-blue-500 focus-visible:ring-blue-100"
-                                }
+                        <Label className="font-bold text-gray-500">Mật khẩu</Label>
+                        <div className="relative">
+                            <Input
+                            id="password"
+                            type={showPassword ? "text" : "password"} // Đổi type linh hoạt
+                            placeholder="Nhập mật khẩu của bạn"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className={`pr-10 ${
+                                errors.password
+                                ? "border-red-300 focus-visible:border-red-500 focus-visible:ring-red-100"
+                                : "border-gray-300 focus-visible:border-blue-500 focus-visible:ring-blue-100"
+                            }`}
                             />
-                            {errors.password && (
-                                <p className="text-sm text-red-500">{errors.password}</p>
+                            {/* Nút con mắt */}
+                            <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none"
+                            >
+                            {showPassword ? (
+                                <Eye className="h-5 w-5" />
+                            ) : (
+                                <EyeOff className="h-5 w-5" />
                             )}
+                            </button>
+                        </div>
+                        {errors.password && (
+                            <p className="text-sm text-red-500">{errors.password}</p>
+                        )}
                         </div>
                         
 

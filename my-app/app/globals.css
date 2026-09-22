@@ -128,3 +128,9 @@
     @apply font-sans;
   }
 }
+
+/* Tắt biểu tượng con mắt mặc định của Edge / Chrome / Safari */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
