@@ -1,22 +1,56 @@
-import { Bell } from "lucide-react"
+'use client'
+
+import { Bell, PanelLeftOpen } from "lucide-react"
 import { User, LogOut } from "lucide-react"
 
 export default function Header() {
+    const now = new Date();
+    // Lấy tên thứ (ví dụ: "Thứ Ba")
+    const weekday = now.toLocaleDateString('vi-VN', { weekday: 'long' }).toLowerCase();
+    
+    // Lấy ngày, tháng, năm
+    const day = now.getDate();
+    const month = now.getMonth() + 1; // Tháng trong JS bắt đầu từ 0
+    const year = now.getFullYear();
+
+    // Ghép chuỗi theo đúng định dạng: "Thứ 3, 29 tháng 9, 2026"
+    const formattedDate = `${weekday}, ${day} tháng ${month}, ${year}`;
     return(
-        <div className="bg-white h-16 flex items-center justify-between border-b p-5">
-            <div className="flex items-start flex-col whitespace-nowrap justify-center leading-tight">
-                <p className="text-blue-600 text-xl font-bold">Người dùng</p>
-                <p className="text-gray-500 text-xs">Danh sách người dùng</p>
-            </div>
-            <div className="flex items-center gap-x-4">
-                <div className="flex p-0.5 rounded-xl ring-1 ring-blue-600 text-bue-500 relative">
-                    <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-500 px-1 text-sm font-bold text-white">3</span>
-                    <Bell size={22} className="text-blue-600" />
+        <div className=" bg-white h-16 flex items-center justify-between border-b px-3 sm:px-4 md:px-5">
+            <div className="flex items-center gap-2">
+                {/* Nút bấm mở Sidebar - Chỉ hiện trên màn hình mobile (md:hidden) */}
+                <button 
+                    type="button"
+                    onClick={() => {
+                        // Logic mở sidebar của bạn (hoặc gọi props/custom event)
+                        window.dispatchEvent(new Event("toggle-sidebar"));
+                    }}
+                    className="flex h-9 w-9 items-center justify-center rounded-lg border text-gray-600 hover:bg-gray-100 md:hidden"
+                >
+                    <PanelLeftOpen size={20} />
+                </button>
+
+                {/* Phần Tiêu đề giữ nguyên của bạn */}
+                <div className="flex items-start flex-col whitespace-nowrap justify-center leading-tight">
+                    <p className="text-blue-600 text-lg md:text-xl font-bold">Dashboard</p>
+                    <p className="text-gray-500 text-[10px] sm:text-xs">{formattedDate}</p>
                 </div>
-                <div className=" h-9 border-2 border-blue-600 text-gray-500 rounded-2xl flex whitespace-nowrap text-sm items-center gap-x-2 p-3">
-                    <p>Kẻ thống trị</p>
-                    <User size={20}/>
-                    <LogOut size={20}/>
+            </div>
+            <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
+                <div className="relative flex items-center justify-center w-6 h-6 md:w-9 md:h-9 rounded-xl ring-1 ring-blue-600 hover:bg-gray-100">
+                    <span className="absolute -right-1 -top-1 flex h-2.5 min-w-2.5 sm:h-4 sm:min-w-4 items-center justify-center rounded-full bg-red-500 px-0.5 sm:px-1 text-xs sm:text-sm font-bold text-white">3</span>
+                    <Bell size={18} className="text-blue-600 sm:w-[22px] sm:h-[22px]" />
+                </div>
+                <div className="flex h-7 sm:h-9 border-2 border-blue-600 text-gray-500 rounded-2xl whitespace-nowrap text-sm items-center gap-x-2 px-1 justify-between">
+                    <div className="flex items-center justify-center whitespace-nowrap gap-1 hover:bg-gray-200 rounded-xl p-0.5">
+                        <p className="hidden sm:block whitespace-nowrap">Kẻ thống trị</p>
+                        <User size={20}/>
+                    </div>
+                    <button
+                        type="button"
+                        className=" flex h-7 w-7 items-center justify-center rounded-lg hover:bg-gray-100">
+                        <LogOut size={18} />
+                    </button>
                 </div>
             </div>
         </div>

@@ -1,9 +1,8 @@
 "use client";
-
 import { Home, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Sidebar() {
   //Trạng thái thu gọn sidebar mặc định là fase
@@ -20,15 +19,27 @@ export default function Sidebar() {
 
   const pathname = usePathname();
 
+    useEffect(() => {
+    const handleToggle = () => setIsCollapsed((prev) => !prev);
+    window.addEventListener("toggle-sidebar", handleToggle);
+    return () => window.removeEventListener("toggle-sidebar", handleToggle);
+  }, []);
+
   return (
     <aside
-      className={`sticky top-0 h-screen shrink-0 border-r bg-white shadow-sm transition-all duration-300 flex flex-col ${
-        isCollapsed ? "w-20" : "w-60"
-      }`}
+      className={`
+          /* Cấu hình vị trí Mobile: Fixed đè lên trên */
+          fixed inset-y-0 left-0 z-50
+          /* Cấu hình vị trí PC (md trở lên): Sticky đẩy khung layout */
+          md:sticky md:top-0 md:z-auto
+          h-screen shrink-0 border-r bg-white shadow-lg md:shadow-sm
+          flex flex-col transition-all duration-300 ease-in-out
+          ${isCollapsed ? "-translate-x-full md:translate-x-0 md:w-16 sm:md:w-20" : "w-64 md:w-60 translate-x-0"}
+        `}
     >
       {/* Phần header logo  */}
       <div
-        className={`flex h-16 shrink-0 items-center border-b px-3 ${
+        className={`flex h-14 sm:h-16 shrink-0 items-center border-b px-3 ${
           isCollapsed ? "justify-center" : "justify-between"
         }`}
       >
@@ -78,7 +89,7 @@ export default function Sidebar() {
                 href={item.href}
                 title={isCollapsed ? item.name : undefined}
                 className={`group relative flex items-center gap-3 rounded-xl transition-all duration-200 ease-in-out ${
-                  isCollapsed ? "justify-center p-2.5" : "px-4 py-3"
+                  isCollapsed ? "w-8 h-8 sm:w-10 sm:h-10 justify-center p-0 mx-auto" : "w-full px-4 py-3"
                 } ${
                   active
                     ? "bg-blue-50 text-blue-600 font-semibold shadow-xs"
@@ -87,14 +98,14 @@ export default function Sidebar() {
               >
                 {/* Thanh vạch màu xanh đánh dấu Active bên mép trái */}
                 {active && (
-                  <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-6 bg-blue-600 rounded-r-full" />
+                  <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 sm:w-1.5 h-6 bg-blue-600 rounded-r-full" />
                 )}
 
                 {/* Icon: Có hiệu ứng phóng to nhẹ khi Hover hoặc khi Active */}
                 <span
                   className={`flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-110 ${
                     active ? "scale-110 text-blue-600" : ""
-                  } ${isCollapsed ? "text-xl" : "text-lg"}`}
+                  } ${isCollapsed ? "text-base sm:text-lg" : "text-lg"}`}
                 >
                   {item.icon}
                 </span>
