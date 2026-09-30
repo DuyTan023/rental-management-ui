@@ -38,15 +38,15 @@ export default function RoomStatusChart() {
       <div className="flex items-center justify-center gap-4">
         
         {/* Biểu đồ tròn */}
-        <div className="h-[150px] w-[150px] shrink-0">
+        <div className="h-[130px] w-[130px] shrink-0">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
                 data={data}
                 cx="50%"
                 cy="50%"
-                innerRadius={35}
-                outerRadius={55}
+                innerRadius={30}
+                outerRadius={50}
                 paddingAngle={3}
                 dataKey="value"
               >

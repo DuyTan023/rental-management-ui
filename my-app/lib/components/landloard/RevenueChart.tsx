@@ -40,7 +40,7 @@ export default function RevenueChart() {
       </div>
 
       {/* Chart */}
-      <div className="h-38 w-full">
+      <div className="h-32 w-full">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data} margin={{ top: 10, right: 10, left: -15, bottom: 0 }}>
             <CartesianGrid
