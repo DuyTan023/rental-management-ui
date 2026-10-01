@@ -11,8 +11,8 @@ export default function Sidebar() {
   // Danh sách các item
   const menuItems = [
     { name: "Dashboard", href: "/landloard/dashboard", icon: "📊" },
-    { name: "Người dùng", href: "/admin/users", icon: "👥" },
-    { name: "Phòng trọ", href: "/admin/rooms", icon: "🏠" },
+    { name: "Người dùng", href: "/landloard/users", icon: "👥" },
+    { name: "Phòng trọ", href: "/landloard/rooms", icon: "🏠" },
     { name: "Hợp đồng", href: "/admin/contracts", icon: "📄" },
     { name: "Hóa đơn", href: "/admin/invoices", icon: "💰" },
   ];
